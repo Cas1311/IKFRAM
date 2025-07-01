@@ -1,0 +1,184 @@
+:root {
+  --header-bg: #ffffff;
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #e0e3e8;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --primary-color: #4caf50;
+  --secondary-color: #2196f3;
+  --error-color: #f44336;
+  --logo-filter: none;
+}
+
+[data-theme='dark'] {
+  --header-bg: #1a1a1a;
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --primary-color: #66bb6a;
+  --secondary-color: #42a5f5;
+  --error-color: #ef5350;
+  --logo-filter: invert(1);
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  font-weight: normal;
+}
+
+.container {
+  padding: 2rem;
+}
+
+/* Cards and forms */
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+[data-theme='dark'] .card {
+  background: var(--bg-secondary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: white;
+}
+
+[data-theme='dark'] input,
+[data-theme='dark'] select {
+  background: var(--bg-secondary);
+  border-color: #333;
+}
+
+/* Buttons */
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button.primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.button.secondary {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.button.danger {
+  background: var(--error-color);
+  color: white;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+th,
+td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--bg-secondary);
+  font-weight: 600;
+}
+
+/* Status tags */
+.status-tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-tag.income {
+  background: var(--primary-color);
+  color: white;
+}
+
+.status-tag.expense {
+  background: var(--error-color);
+  color: white;
+}
+
+/* Animations */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+}
