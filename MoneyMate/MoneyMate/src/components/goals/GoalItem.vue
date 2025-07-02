@@ -1,15 +1,27 @@
 <template>
-  <li>
-    <h3>
-      {{ name }}
-    </h3>
-    <h4>{{ current }} / {{ target }}</h4>
-    <p>{{ date }}</p>
+  <base-card :class="{ 'completed': complete }">
+    <div class="goal-header">
+      <h3 class="goal-title" @click="navigateToDetail">
+        {{ name }}
+        <span v-if="complete" class="completed-badge">✓ Completed</span>
+      </h3>
+      <button class="star-button" @click="toggleStar" :class="{ starred: starred }">
+        {{ starred ? '★' : '☆' }}
+      </button>
+    </div>
+    <div class="goal-content" @click="navigateToDetail">
+      <h4>${{ current }} / ${{ target }}</h4>
+      <p>{{ date }}</p>
+      <div class="progress-bar">
+        <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
+      </div>
+      <p class="progress-text">{{ progressPercentage }}% complete</p>
+    </div>
     <div class="actions">
       <base-button mode="outline" link :to="goalEditLink">Edit</base-button>
-      <base-button link :to="goalDeleteLink">Delete</base-button>
+      <base-button @click="deleteGoal">Delete</base-button>
     </div>
-  </li>
+  </base-card>
 </template>
 
 <script>
@@ -40,25 +52,87 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    starred: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
     goalEditLink() {
       return `/goals/${this.id}/edit`;
     },
-    goalDeleteLink() {
-      return `/goals/${this.id}/delete`;
+    goalDetailLink() {
+      return `/goals/${this.id}`;
+    },
+    progressPercentage() {
+      if (this.target === 0) return 0;
+      const percentage = Math.round((this.current / this.target) * 100);
+      return Math.min(percentage, 100); // Cap at 100%
+    }
+  },
+  methods: {
+    deleteGoal() {
+      if (confirm(`Are you sure you want to delete "${this.name}"?`)) {
+        this.$store.dispatch('goals/deleteGoal', this.id);
+      }
+    },
+    toggleStar() {
+      this.$store.dispatch('goals/toggleStarGoal', this.id);
+    },
+    navigateToDetail() {
+      this.$router.push(this.goalDetailLink);
     }
   }
 };
 </script>
 
 <style scoped>
-li {
-  margin: 1rem 0;
-  border: 1px solid #424242;
-  border-radius: 12px;
-  padding: 1rem;
+.goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.goal-title {
+  margin: 0;
+  flex: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+}
+
+.goal-title:hover {
+  color: #3a0061;
+}
+
+.goal-content {
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.goal-content:hover {
+  opacity: 0.8;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #ccc;
+  transition: color 0.2s ease;
+}
+
+.star-button:hover {
+  color: #ffd700;
+}
+
+.star-button.starred {
+  color: #ffd700;
 }
 
 h3 {
@@ -70,12 +144,55 @@ h4 {
   margin: 0.5rem 0;
 }
 
-div {
+.completed-badge {
+  display: inline-block;
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
+.completed {
+  border-left: 4px solid #28a745;
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
   margin: 0.5rem 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3a0061 0%, #6c5ce7 100%);
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.completed .progress-fill {
+  background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+}
+
+.progress-text {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0.25rem 0 0 0;
+  text-align: center;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
 </style>

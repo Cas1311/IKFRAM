@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DashboardView from '../views/DashboardView.vue'
-import GoalsView from '@/views/GoalsView.vue'
-import TransactionsView from '@/views/TransactionsView.vue'
-import RegisterUser from '@/views/RegisterUser.vue'
-import NotFound from '@/views/NotFound.vue'
-import AddGoal from '@/views/addGoal.vue'
+import DashboardView from '../pages/DashboardView.vue'
+import GoalsView from '@/pages/goals/GoalsView.vue'
+import TransactionsView from '@/pages/transactions/TransactionsView.vue'
+import RegisterUser from '@/pages/users/RegisterUser.vue'
+import NotFound from '@/pages/NotFound.vue'
+import AddGoal from '@/pages/goals/AddGoal.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +23,18 @@ const router = createRouter({
       path: '/goals/add',
       name: 'add-goal',
       component: AddGoal,
+    },
+    {
+      path: '/goals/:id',
+      name: 'goal-detail',
+      component: () => import('@/pages/goals/GoalDetailView.vue'),
+      props: true,
+    },
+    {
+      path: '/goals/:id/edit',
+      name: 'goal-edit',
+      component: () => import('@/pages/goals/GoalEditView.vue'),
+      props: true,
     },
     {
       path: '/transactions',

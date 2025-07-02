@@ -1,8 +1,29 @@
 <template>
-  <div class="card">
+  <div v-if="!link" class="card">
     <slot></slot>
   </div>
+  <router-link v-else :to="to" class="card card-link">
+    <slot></slot>
+  </router-link>
 </template>
+
+<script>
+export default {
+  name: 'BaseCard',
+  props: {
+    link: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    to: {
+      type: String,
+      required: false,
+      default: '/'
+    }
+  }
+};
+</script>
 
 <style scoped>
 .card {
@@ -11,5 +32,11 @@
   padding: 1rem;
   margin: 2rem auto;
   max-width: 40rem;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 </style>
