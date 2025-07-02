@@ -1,37 +1,24 @@
 <template>
   <section v-if="goal">
     <base-card>
-    <div class="header">
-      <h1>Edit Goal: {{ goal.name }}</h1>
-      <base-button mode="flat" link :to="goalDetailLink">Cancel</base-button>
-    </div>
+      <div class="header">
+        <h1>Edit Goal: {{ goal.name }}</h1>
+        <base-button mode="flat" link :to="goalDetailLink">Cancel</base-button>
+      </div>
 
       <form @submit.prevent="saveGoal">
         <div class="form-group">
           <label for="name">Goal Name</label>
-          <input
-            id="name"
-            v-model="editedGoal.name"
-            type="text"
-            required
-            placeholder="Enter goal name"
-          />
+          <input id="name" v-model="editedGoal.name" type="text" required placeholder="Enter goal name" />
         </div>
 
         <div class="form-group">
           <label for="target">Target Amount</label>
-          <input
-            id="target"
-            v-model.number="editedGoal.targetAmount"
-            type="number"
-            required
-            min="0"
-            step="1"
-            placeholder="Enter target amount"
-          />
+          <input id="target" v-model.number="editedGoal.targetAmount" type="number" required min="0" step="1"
+            placeholder="Enter target amount" />
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label for="current">Current Amount</label>
           <input
             id="current"
@@ -42,16 +29,11 @@
             step="1"
             placeholder="Enter current amount"
           />
-        </div>
+        </div> -->
 
         <div class="form-group">
           <label for="date">Due Date</label>
-          <input
-            id="date"
-            v-model="editedGoal.dueDate"
-            type="date"
-            required
-          />
+          <input id="date" v-model="editedGoal.dueDate" type="date" required />
         </div>
 
         <div class="form-actions">

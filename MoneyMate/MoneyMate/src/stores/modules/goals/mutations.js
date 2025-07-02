@@ -1,4 +1,16 @@
 export default {
+  setGoals(state, goals) {
+    state.goals = goals;
+  },
+  setLoading(state, loading) {
+    state.loading = loading;
+  },
+  setError(state, error) {
+    state.error = error;
+  },
+  addGoalToState(state, goal) {
+    state.goals.push(goal);
+  },
   deleteGoal(state, goalId) {
     const goalIndex = state.goals.findIndex(goal => goal.id === goalId);
     if (goalIndex !== -1) {

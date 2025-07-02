@@ -16,4 +16,8 @@ app.use(store)
 app.component('base-card', BaseCard)
 app.component('base-button', BaseButton)
 
+// Fetch initial data from Firebase
+store.dispatch('transactions/fetchTransactions')
+store.dispatch('goals/fetchGoals')
+
 app.mount('#app')

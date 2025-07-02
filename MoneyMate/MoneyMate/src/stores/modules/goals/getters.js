@@ -2,6 +2,12 @@ export default {
   goals(state) {
     return state.goals;
   },
+  loading(state) {
+    return state.loading;
+  },
+  error(state) {
+    return state.error;
+  },
   hasGoals(state) {
     return state.goals && state.goals.length > 0;
   },

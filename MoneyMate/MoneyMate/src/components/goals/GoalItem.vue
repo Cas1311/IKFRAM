@@ -1,5 +1,5 @@
 <template>
-  <base-card :class="{ 'completed': complete }">
+  <div class="goal-item" :class="{ 'completed': complete }">
     <div class="goal-header">
       <h3 class="goal-title" @click="navigateToDetail">
         {{ name }}
@@ -18,15 +18,25 @@
       <p class="progress-text">{{ progressPercentage }}% complete</p>
     </div>
     <div class="actions">
+      <base-button mode="outline" @click="openContributeModal" v-if="!complete">Contribute</base-button>
       <base-button mode="outline" link :to="goalEditLink">Edit</base-button>
       <base-button @click="deleteGoal">Delete</base-button>
     </div>
-  </base-card>
+
+    <!-- Contribute Modal -->
+    <contribute-to-goal :show="showContributeModal" :goal="goalData" @close="showContributeModal = false"
+      @contributed="onContributed" />
+  </div>
 </template>
 
 <script>
+import ContributeToGoal from './ContributeToGoal.vue';
+
 export default {
   name: 'GoalItem',
+  components: {
+    ContributeToGoal
+  },
   props: {
     id: {
       type: String,
@@ -59,6 +69,11 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      showContributeModal: false
+    };
+  },
   computed: {
     goalEditLink() {
       return `/goals/${this.id}/edit`;
@@ -70,6 +85,17 @@ export default {
       if (this.target === 0) return 0;
       const percentage = Math.round((this.current / this.target) * 100);
       return Math.min(percentage, 100); // Cap at 100%
+    },
+    goalData() {
+      return {
+        id: this.id,
+        name: this.name,
+        currentAmount: this.current,
+        targetAmount: this.target,
+        dueDate: this.date,
+        isCompleted: this.complete,
+        starred: this.starred
+      };
     }
   },
   methods: {
@@ -83,12 +109,34 @@ export default {
     },
     navigateToDetail() {
       this.$router.push(this.goalDetailLink);
+    },
+    openContributeModal() {
+      this.showContributeModal = true;
+    },
+    onContributed() {
+      // Refresh goals data after contribution
+      this.$store.dispatch('goals/fetchGoals');
+      this.$store.dispatch('transactions/fetchTransactions');
     }
   }
 };
 </script>
 
 <style scoped>
+.goal-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.goal-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .goal-header {
   display: flex;
   justify-content: space-between;

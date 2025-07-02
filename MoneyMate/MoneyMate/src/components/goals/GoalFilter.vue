@@ -6,29 +6,16 @@
       <!-- Search by name -->
       <div class="filter-group">
         <label for="search">Search by name:</label>
-        <input
-          id="search"
-          type="text"
-          v-model="filters.searchText"
-          placeholder="Search goals by name"
-        />
+        <input id="search" type="text" v-model="filters.searchText" placeholder="Search goals by name" />
       </div>
 
       <!-- Filter by goal amount -->
       <div class="filter-group">
         <label>Goal Amount Range:</label>
         <div class="range-inputs">
-          <input
-            type="number"
-            v-model.number="filters.minAmount"
-            placeholder="Min amount"
-          />
+          <input type="number" v-model.number="filters.minAmount" placeholder="Min amount" />
           <span>to</span>
-          <input
-            type="number"
-            v-model.number="filters.maxAmount"
-            placeholder="Max amount"
-          />
+          <input type="number" v-model.number="filters.maxAmount" placeholder="Max amount" />
         </div>
       </div>
 
@@ -36,21 +23,9 @@
       <div class="filter-group">
         <label>Completion Percentage:</label>
         <div class="range-inputs">
-          <input
-            type="number"
-            v-model.number="filters.minPercentage"
-            placeholder="Min %"
-            min="0"
-            max="100"
-          />
+          <input type="number" v-model.number="filters.minPercentage" placeholder="Min %" min="0" max="100" />
           <span>to</span>
-          <input
-            type="number"
-            v-model.number="filters.maxPercentage"
-            placeholder="Max %"
-            min="0"
-            max="100"
-          />
+          <input type="number" v-model.number="filters.maxPercentage" placeholder="Max %" min="0" max="100" />
         </div>
       </div>
 
@@ -58,15 +33,9 @@
       <div class="filter-group">
         <label>Due Date Range:</label>
         <div class="range-inputs">
-          <input
-            type="date"
-            v-model="filters.startDate"
-          />
+          <input type="date" v-model="filters.startDate" />
           <span>to</span>
-          <input
-            type="date"
-            v-model="filters.endDate"
-          />
+          <input type="date" v-model="filters.endDate" />
         </div>
       </div>
 
@@ -299,4 +268,3 @@ h2 {
   }
 }
 </style>
-

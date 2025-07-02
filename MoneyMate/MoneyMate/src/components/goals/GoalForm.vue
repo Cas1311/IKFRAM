@@ -2,22 +2,30 @@
   <form @submit.prevent="addGoal">
     <div class="form-control">
       <label for="name">Name</label>
-      <input type="text" id="name" v-model.trim="name" placeholder="Enter goal name" :class="{ 'was-validated': touched.name }" @blur="touched.name = true" required>
+      <input type="text" id="name" v-model.trim="name" placeholder="Enter goal name"
+        :class="{ 'was-validated': touched.name }" @blur="touched.name = true" required>
       <span v-if="touched.name && !name" class="error-message">Goal name is required</span>
     </div>
     <div class="form-control">
       <label for="targetAmount">Target Amount</label>
-      <input type="number" id="targetAmount" step="1" min="0" v-model.number="targetAmount" placeholder="Enter target amount" :class="{ 'was-validated': touched.targetAmount }" @blur="touched.targetAmount = true" required>
-      <span v-if="touched.targetAmount && (!targetAmount || targetAmount <= 0)" class="error-message">Target amount is required and must be greater than 0</span>
+      <input type="number" id="targetAmount" step="1" min="0" v-model.number="targetAmount"
+        placeholder="Enter target amount" :class="{ 'was-validated': touched.targetAmount }"
+        @blur="touched.targetAmount = true" required>
+      <span v-if="touched.targetAmount && (!targetAmount || targetAmount <= 0)" class="error-message">Target amount is
+        required and must be greater than 0</span>
     </div>
     <div class="form-control">
       <label for="currentAmount">Current Amount</label>
-      <input type="number" id="currentAmount" step="1" min="0" v-model.number="currentAmount" placeholder="Enter current amount" :class="{ 'was-validated': touched.currentAmount }" @blur="touched.currentAmount = true" required>
-      <span v-if="touched.currentAmount && (currentAmount === null || currentAmount < 0)" class="error-message">Current amount is required and must be 0 or greater</span>
+      <input type="number" id="currentAmount" step="1" min="0" v-model.number="currentAmount"
+        placeholder="Enter current amount" :class="{ 'was-validated': touched.currentAmount }"
+        @blur="touched.currentAmount = true" required>
+      <span v-if="touched.currentAmount && (currentAmount === null || currentAmount < 0)" class="error-message">Current
+        amount is required and must be 0 or greater</span>
     </div>
     <div class="form-control">
       <label for="dueDate">Due Date</label>
-      <input type="date" id="dueDate" v-model="dueDate" :class="{ 'was-validated': touched.dueDate }" @blur="touched.dueDate = true" required>
+      <input type="date" id="dueDate" v-model="dueDate" :class="{ 'was-validated': touched.dueDate }"
+        @blur="touched.dueDate = true" required>
       <span v-if="touched.dueDate && !dueDate" class="error-message">Due date is required</span>
     </div>
     <base-button>Add</base-button>
@@ -26,7 +34,7 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       name: '',
       targetAmount: null,

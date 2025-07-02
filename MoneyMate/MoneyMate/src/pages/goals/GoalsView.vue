@@ -1,15 +1,68 @@
 <template>
-  <section><goal-filter @filter-changed="updateFilters" :result-count="filteredGoals.length"></goal-filter></section>
+  <!-- <section>
+    <base-card>
+      <h1>Goals</h1>
+      <p>Track and manage your savings goals. Set targets, monitor progress, and achieve your financial objectives.</p>
+    </base-card>
+  </section> -->
+
   <section>
     <base-card>
-    <div class="controls">
-    <base-button mode="outline">Refresh</base-button>
-    <base-button link to="/goals/add">Add a Goal</base-button>
-    </div>
-    <div v-if="hasGoals">
-      <goal-item class="goal-item" v-for="goal in filteredGoals" :key="goal.id" :id="goal.id" :name="goal.name" :target="goal.targetAmount" :current="goal.currentAmount" :date="goal.dueDate" :complete="goal.isCompleted" :starred="goal.starred"></goal-item>
-    </div>
-    <h3 v-else>No goals available. Please add a goal.</h3>
+      <div class="controls">
+        <h2>All Goals</h2>
+        <div class="control-actions">
+          <base-button mode="outline" @click="toggleFilters">
+            {{ showFilters ? 'Hide' : 'Show' }} Filters
+          </base-button>
+          <base-button link to="/goals/add">Add a Goal</base-button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <goal-filter v-if="showFilters" @filter-changed="updateFilters" :result-count="filteredGoals.length" />
+
+      <!-- Goal Stats -->
+      <div v-if="hasGoals" class="goal-stats">
+        <div class="stat-item">
+          <span class="stat-label">Showing:</span>
+          <span class="stat-value">{{ filteredGoals.length }} of {{ totalGoals }} goals</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Completed:</span>
+          <span class="stat-value completed">{{ completedGoalsCount }} goals</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total Progress:</span>
+          <span class="stat-value">{{ averageProgress.toFixed(1) }}% average</span>
+        </div>
+      </div>
+
+      <div v-if="loading" class="loading">
+        <p>Loading goals...</p>
+      </div>
+      <div v-else-if="error" class="error">
+        <p>Error loading goals: {{ error }}</p>
+        <base-button @click="refreshGoals">Retry</base-button>
+      </div>
+      <div v-else-if="hasFilteredGoals" class="goals-list">
+        <goal-item class="goal-item" v-for="goal in paginatedGoals" :key="goal.id" :id="goal.id" :name="goal.name"
+          :target="goal.targetAmount" :current="goal.currentAmount" :date="goal.dueDate" :complete="goal.isCompleted"
+          :starred="goal.starred" />
+
+        <!-- Pagination -->
+        <base-pagination :current-page="currentPage" :total-items="filteredGoals.length" :page-size="pageSize"
+          @page-changed="onPageChanged" @page-size-changed="onPageSizeChanged" />
+      </div>
+      <div v-else-if="allGoals.length > 0" class="no-filtered-goals">
+        <h3>No goals match your filters</h3>
+        <p>Try adjusting your search criteria or clear filters to see all goals.</p>
+        <base-button mode="outline" @click="clearFilters">Clear Filters</base-button>
+      </div>
+      <div v-else class="no-goals">
+        <h3>No goals yet</h3>
+        <p>Start by creating your first savings goal!</p>
+        <base-button link to="/goals/add">Add Goal</base-button>
+      </div>
     </base-card>
   </section>
 </template>
@@ -17,15 +70,20 @@
 <script>
 import GoalItem from '@/components/goals/GoalItem.vue';
 import GoalFilter from '@/components/goals/GoalFilter.vue';
+import BasePagination from '@/components/ui/Pagination.vue';
 
 export default {
   components: {
     GoalItem,
     GoalFilter,
+    BasePagination,
   },
   name: 'GoalsView',
   data() {
     return {
+      showFilters: false,
+      currentPage: 1,
+      pageSize: 10,
       activeFilters: {
         searchText: '',
         minAmount: null,
@@ -43,6 +101,15 @@ export default {
   computed: {
     allGoals() {
       return this.$store.getters['goals/goals'];
+    },
+    loading() {
+      return this.$store.getters['goals/loading'];
+    },
+    error() {
+      return this.$store.getters['goals/error'];
+    },
+    totalGoals() {
+      return this.allGoals ? this.allGoals.length : 0;
     },
     filteredGoals() {
       let goals = [...this.allGoals];
@@ -144,33 +211,202 @@ export default {
 
       return goals;
     },
-    hasGoals() {
-      return this.filteredGoals.length > 0;
+    paginatedGoals() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.filteredGoals.slice(startIndex, endIndex);
     },
+    hasGoals() {
+      return this.allGoals && this.allGoals.length > 0;
+    },
+    hasFilteredGoals() {
+      return this.filteredGoals && this.filteredGoals.length > 0;
+    },
+    completedGoalsCount() {
+      if (!this.hasFilteredGoals) return 0;
+      return this.filteredGoals.filter(goal => goal.isCompleted || (goal.currentAmount >= goal.targetAmount)).length;
+    },
+    averageProgress() {
+      if (!this.hasFilteredGoals) return 0;
+
+      const totalProgress = this.filteredGoals.reduce((sum, goal) => {
+        const progress = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
+        return sum + progress;
+      }, 0);
+
+      return totalProgress / this.filteredGoals.length;
+    }
   },
   methods: {
     updateFilters(filters) {
       this.activeFilters = { ...filters };
+    },
+    toggleFilters() {
+      this.showFilters = !this.showFilters;
+    },
+    clearFilters() {
+      this.activeFilters = {
+        searchText: '',
+        minAmount: null,
+        maxAmount: null,
+        minPercentage: null,
+        maxPercentage: null,
+        startDate: '',
+        endDate: '',
+        status: '',
+        sortBy: '',
+        sortOrder: 'asc'
+      };
+      this.currentPage = 1; // Reset to first page when clearing filters
+    },
+    refreshGoals() {
+      this.$store.dispatch('goals/fetchGoals');
+    },
+    onPageChanged(page) {
+      this.currentPage = page;
+      // Scroll to top when changing pages
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    onPageSizeChanged(newPageSize) {
+      this.pageSize = newPageSize;
+      this.currentPage = 1; // Reset to first page when changing page size
+    }
+  },
+  watch: {
+    // Reset to first page when filters change
+    activeFilters: {
+      handler() {
+        this.currentPage = 1;
+      },
+      deep: true
     }
   }
 };
 </script>
 
 <style scoped>
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
 }
 
-.goal-item:hover {
-  cursor: pointer;
-  background-color: #f0f0f0;
-  transition: 0.3s;
+.controls h2 {
+  margin: 0;
+  color: #333;
+}
+
+.control-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.goal-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e9ecef;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.stat-value.completed {
+  color: #28a745;
+}
+
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.no-goals,
+.no-filtered-goals {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+}
+
+.no-goals h3,
+.no-filtered-goals h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.no-goals p,
+.no-filtered-goals p {
+  margin: 0 0 1.5rem 0;
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+}
+
+.loading p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.error {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #dc3545;
+}
+
+.error p {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .control-actions {
+    justify-content: space-between;
+  }
+
+  .goal-stats {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .stat-item {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .control-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 </style>
