@@ -2,43 +2,21 @@
   <form @submit.prevent="addTransaction">
     <div class="form-control">
       <label for="title">Transaction Title</label>
-      <input
-        type="text"
-        id="title"
-        v-model.trim="title"
-        placeholder="Enter transaction title"
-        :class="{ 'was-validated': touched.title }"
-        @blur="touched.title = true"
-        required
-      >
+      <input type="text" id="title" v-model.trim="title" placeholder="Enter transaction title"
+        :class="{ 'was-validated': touched.title }" @blur="touched.title = true" required>
       <span v-if="touched.title && !title" class="error-message">Transaction title is required</span>
     </div>
 
     <div class="form-control">
       <label for="amount">Amount</label>
-      <input
-        type="number"
-        id="amount"
-        step="0.01"
-        min="0"
-        v-model.number="amount"
-        placeholder="Enter amount"
-        :class="{ 'was-validated': touched.amount }"
-        @blur="touched.amount = true"
-        required
-      >
+      <input type="number" id="amount" step="0.01" min="0" v-model.number="amount" placeholder="Enter amount"
+        :class="{ 'was-validated': touched.amount }" @blur="touched.amount = true" required>
       <span v-if="touched.amount && (!amount || amount <= 0)" class="error-message">Amount must be greater than 0</span>
     </div>
 
     <div class="form-control">
       <label for="type">Transaction Type</label>
-      <select
-        id="type"
-        v-model="type"
-        :class="{ 'was-validated': touched.type }"
-        @blur="touched.type = true"
-        required
-      >
+      <select id="type" v-model="type" :class="{ 'was-validated': touched.type }" @blur="touched.type = true" required>
         <option value="">Select transaction type</option>
         <option value="income">Income</option>
         <option value="expense">Expense</option>
@@ -48,13 +26,8 @@
 
     <div class="form-control">
       <label for="category">Category</label>
-      <select
-        id="category"
-        v-model="category"
-        :class="{ 'was-validated': touched.category }"
-        @blur="touched.category = true"
-        required
-      >
+      <select id="category" v-model="category" :class="{ 'was-validated': touched.category }"
+        @blur="touched.category = true" required>
         <option value="">Select category</option>
         <!-- Income categories -->
         <optgroup v-if="type === 'income'" label="Income Categories">
@@ -81,24 +54,14 @@
 
     <div class="form-control">
       <label for="description">Description (Optional)</label>
-      <textarea
-        id="description"
-        v-model.trim="description"
-        placeholder="Enter transaction description"
-        rows="3"
-      ></textarea>
+      <textarea id="description" v-model.trim="description" placeholder="Enter transaction description"
+        rows="3"></textarea>
     </div>
 
     <div class="form-control">
       <label for="date">Date</label>
-      <input
-        type="date"
-        id="date"
-        v-model="date"
-        :class="{ 'was-validated': touched.date }"
-        @blur="touched.date = true"
-        required
-      >
+      <input type="date" id="date" v-model="date" :class="{ 'was-validated': touched.date }" @blur="touched.date = true"
+        required>
       <span v-if="touched.date && !date" class="error-message">Date is required</span>
     </div>
 

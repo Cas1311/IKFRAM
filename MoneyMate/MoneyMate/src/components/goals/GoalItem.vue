@@ -5,9 +5,14 @@
         {{ name }}
         <span v-if="complete" class="completed-badge">✓ Completed</span>
       </h3>
-      <button class="star-button" @click="toggleStar" :class="{ starred: starred }">
-        {{ starred ? '★' : '☆' }}
-      </button>
+      <div class="goal-actions">
+        <button class="star-button" @click="toggleStar" :class="{ starred: starred }">
+          {{ starred ? '★' : '☆' }}
+        </button>
+        <button class="delete-button" @click="deleteGoal" title="Delete goal">
+          🗑️
+        </button>
+      </div>
     </div>
     <div class="goal-content" @click="navigateToDetail">
       <h4>${{ current }} / ${{ target }}</h4>
@@ -18,9 +23,8 @@
       <p class="progress-text">{{ progressPercentage }}% complete</p>
     </div>
     <div class="actions">
-      <base-button mode="outline" @click="openContributeModal" v-if="!complete">Contribute</base-button>
       <base-button mode="outline" link :to="goalEditLink">Edit</base-button>
-      <base-button @click="deleteGoal">Delete</base-button>
+      <base-button @click="openContributeModal" v-if="!complete">Contribute</base-button>
     </div>
 
     <!-- Contribute Modal -->
@@ -144,12 +148,17 @@ export default {
   margin-bottom: 0.5rem;
 }
 
+.goal-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .goal-title {
   margin: 0;
   flex: 1;
   cursor: pointer;
   transition: color 0.2s ease;
-
 }
 
 .goal-title:hover {
@@ -165,7 +174,8 @@ export default {
   opacity: 0.8;
 }
 
-.star-button {
+.star-button,
+.delete-button {
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -181,6 +191,10 @@ export default {
 
 .star-button.starred {
   color: #ffd700;
+}
+
+.delete-button:hover {
+  color: #dc3545;
 }
 
 h3 {

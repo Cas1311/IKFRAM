@@ -45,9 +45,9 @@
         <base-button @click="refreshGoals">Retry</base-button>
       </div>
       <div v-else-if="hasFilteredGoals" class="goals-list">
-        <goal-item class="goal-item" v-for="goal in paginatedGoals" :key="goal.id" :id="goal.id" :name="goal.name"
-          :target="goal.targetAmount" :current="goal.currentAmount" :date="goal.dueDate" :complete="goal.isCompleted"
-          :starred="goal.starred" />
+        <goal-item class="goal-item" v-for="goal in paginatedGoals" :key="goal.id" :id="goal.id || ''"
+          :name="goal.name || 'Untitled Goal'" :target="goal.targetAmount || 0" :current="goal.currentAmount || 0"
+          :date="goal.dueDate || ''" :complete="goal.isCompleted || false" :starred="goal.starred || false" />
 
         <!-- Pagination -->
         <base-pagination :current-page="currentPage" :total-items="filteredGoals.length" :page-size="pageSize"
@@ -131,6 +131,7 @@ export default {
 
       if (this.activeFilters.minPercentage !== null) {
         goals = goals.filter(goal => {
+          if (!goal.targetAmount || goal.targetAmount === 0) return false;
           const percentage = (goal.currentAmount / goal.targetAmount) * 100;
           return percentage >= this.activeFilters.minPercentage;
         });
@@ -138,6 +139,7 @@ export default {
 
       if (this.activeFilters.maxPercentage !== null) {
         goals = goals.filter(goal => {
+          if (!goal.targetAmount || goal.targetAmount === 0) return true; // Include goals with 0 target when filtering by max
           const percentage = (goal.currentAmount / goal.targetAmount) * 100;
           return percentage <= this.activeFilters.maxPercentage;
         });
@@ -153,6 +155,10 @@ export default {
 
       if (this.activeFilters.status) {
         goals = goals.filter(goal => {
+          if (!goal.targetAmount || goal.targetAmount === 0) {
+            return this.activeFilters.status === 'in-progress'; // Goals with 0 target are considered in-progress
+          }
+
           const percentage = (goal.currentAmount / goal.targetAmount) * 100;
           const isOverdue = new Date(goal.dueDate) < new Date();
 
@@ -184,8 +190,16 @@ export default {
               valueB = new Date(b.dueDate);
               break;
             case 'percentage':
-              valueA = (a.currentAmount / a.targetAmount) * 100;
-              valueB = (b.currentAmount / b.targetAmount) * 100;
+              if (!a.targetAmount || a.targetAmount === 0) {
+                valueA = 0;
+              } else {
+                valueA = (a.currentAmount / a.targetAmount) * 100;
+              }
+              if (!b.targetAmount || b.targetAmount === 0) {
+                valueB = 0;
+              } else {
+                valueB = (b.currentAmount / b.targetAmount) * 100;
+              }
               break;
             case 'targetAmount':
               valueA = a.targetAmount;
@@ -224,17 +238,23 @@ export default {
     },
     completedGoalsCount() {
       if (!this.hasFilteredGoals) return 0;
-      return this.filteredGoals.filter(goal => goal.isCompleted || (goal.currentAmount >= goal.targetAmount)).length;
+      return this.filteredGoals.filter(goal => {
+        if (!goal.targetAmount || goal.targetAmount === 0) return goal.isCompleted;
+        return goal.isCompleted || (goal.currentAmount >= goal.targetAmount);
+      }).length;
     },
     averageProgress() {
       if (!this.hasFilteredGoals) return 0;
 
-      const totalProgress = this.filteredGoals.reduce((sum, goal) => {
+      const validGoals = this.filteredGoals.filter(goal => goal.targetAmount && goal.targetAmount > 0);
+      if (validGoals.length === 0) return 0;
+
+      const totalProgress = validGoals.reduce((sum, goal) => {
         const progress = Math.min((goal.currentAmount / goal.targetAmount) * 100, 100);
         return sum + progress;
       }, 0);
 
-      return totalProgress / this.filteredGoals.length;
+      return totalProgress / validGoals.length;
     }
   },
   methods: {

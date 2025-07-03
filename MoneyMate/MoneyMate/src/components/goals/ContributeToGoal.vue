@@ -26,7 +26,7 @@
           <div class="form-group">
             <label for="amount">Contribution Amount</label>
             <div class="amount-input">
-              <span class="currency">$</span>
+              <!-- <span class="currency">$</span> -->
               <input type="number" id="amount" v-model="amount" :max="maxContribution" min="1" step="0.01" required
                 placeholder="0.00" />
             </div>

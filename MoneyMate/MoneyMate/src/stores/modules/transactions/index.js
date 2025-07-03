@@ -6,6 +6,7 @@ export default {
   state() {
     return {
       transactions: [],
+      accountBalance: 0,
       loading: false,
       error: null
     };
@@ -35,6 +36,9 @@ export default {
         const oldTransaction = state.transactions[transactionIndex];
         state.transactions[transactionIndex] = { ...oldTransaction, ...updates };
       }
+    },
+    setAccountBalance(state, balance) {
+      state.accountBalance = balance;
     }
   },
   actions: {
@@ -56,7 +60,7 @@ export default {
           commit('setTransactions', transactions);
 
           // Calculate account balance from transactions
-          let balance = 1000; // Starting balance
+          let balance = 0; // Starting balance
           transactions.forEach(transaction => {
             if (transaction.type === 'income') {
               balance += transaction.amount;
@@ -303,6 +307,29 @@ export default {
       });
 
       return summary;
+    }, thisMonthIncome(state) {
+      const now = new Date();
+      const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+      return state.transactions
+        .filter(t => {
+          const transactionDate = new Date(t.date || t.timestamp);
+          const transactionMonthKey = `${transactionDate.getFullYear()}-${String(transactionDate.getMonth() + 1).padStart(2, '0')}`;
+          return transactionMonthKey === currentMonthKey && t.type === 'income';
+        })
+        .reduce((total, t) => total + t.amount, 0);
+    },
+    thisMonthExpenses(state) {
+      const now = new Date();
+      const currentMonthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+      return state.transactions
+        .filter(t => {
+          const transactionDate = new Date(t.date || t.timestamp);
+          const transactionMonthKey = `${transactionDate.getFullYear()}-${String(transactionDate.getMonth() + 1).padStart(2, '0')}`;
+          return transactionMonthKey === currentMonthKey && t.type === 'expense';
+        })
+        .reduce((total, t) => total + t.amount, 0);
     }
   }
 };

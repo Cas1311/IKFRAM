@@ -1,14 +1,14 @@
 <template>
   <section v-if="goal">
-    <base-card>
-    <div class="goal-header">
-      <h1>{{ goal.name }}</h1>
-      <div class="actions">
-        <base-button mode="outline" link :to="goalEditLink">Edit Goal</base-button>
-        <base-button @click="deleteGoal">Delete Goal</base-button>
-        <base-button mode="flat" link to="/goals">Back to Goals</base-button>
+    <base-card class="detail-card">
+      <div class="goal-header">
+        <h1>{{ goal.name }}</h1>
+        <div class="actions">
+          <base-button mode="outline" link :to="goalEditLink">Edit Goal</base-button>
+          <base-button @click="deleteGoal">Delete Goal</base-button>
+          <base-button mode="flat" @click="goBack">Back</base-button>
+        </div>
       </div>
-    </div>
 
       <div class="goal-details">
         <div class="progress-section">
@@ -46,9 +46,11 @@
   </section>
 
   <section v-else>
-    <h1>Goal Not Found</h1>
-    <p>The goal you're looking for doesn't exist.</p>
-    <base-button link to="/goals">Back to Goals</base-button>
+    <base-card class="detail-card">
+      <h1>Goal Not Found</h1>
+      <p>The goal you're looking for doesn't exist.</p>
+      <base-button @click="goBack">Back</base-button>
+    </base-card>
   </section>
 </template>
 
@@ -101,12 +103,27 @@ export default {
         this.$store.dispatch('goals/deleteGoal', this.id);
         this.$router.push('/goals');
       }
+    },
+    goBack() {
+      // Check if there's history to go back to
+      if (window.history.length > 1) {
+        this.$router.go(-1);
+      } else {
+        // Fallback to goals page if no history
+        this.$router.push('/goals');
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+.detail-card {
+  max-width: 60rem !important;
+  width: 95%;
+  margin: 2rem auto;
+}
+
 .goal-header {
   display: flex;
   justify-content: space-between;

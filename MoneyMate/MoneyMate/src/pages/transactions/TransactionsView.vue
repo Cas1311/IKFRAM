@@ -229,6 +229,28 @@ export default {
       }, 0);
     }
   },
+  mounted() {
+    // Check for query parameters and apply filters
+    if (this.$route.query.type) {
+      this.filters.type = this.$route.query.type;
+      this.showFilters = true; // Show filters so user can see what's applied
+    }
+
+    // Handle month filtering (YYYY-MM format)
+    if (this.$route.query.month) {
+      const monthYear = this.$route.query.month; // e.g., "2025-07"
+      const [year, month] = monthYear.split('-');
+
+      // Set date range for the entire month
+      this.filters.dateFrom = `${year}-${month.padStart(2, '0')}-01`;
+
+      // Calculate last day of the month
+      const lastDay = new Date(year, month, 0).getDate();
+      this.filters.dateTo = `${year}-${month.padStart(2, '0')}-${lastDay}`;
+
+      this.showFilters = true;
+    }
+  },
   methods: {
     refreshTransactions() {
       this.$store.dispatch('transactions/fetchTransactions');
@@ -270,6 +292,33 @@ export default {
         this.currentPage = 1;
       },
       deep: true
+    },
+    // Watch for route changes and update filters
+    '$route.query': {
+      handler(newQuery) {
+        if (newQuery.type && newQuery.type !== this.filters.type) {
+          this.filters.type = newQuery.type;
+          this.showFilters = true;
+        }
+
+        // Handle month filtering from query params
+        if (newQuery.month) {
+          const monthYear = newQuery.month; // e.g., "2025-07"
+          const [year, month] = monthYear.split('-');
+
+          // Set date range for the entire month
+          const dateFrom = `${year}-${month.padStart(2, '0')}-01`;
+          const lastDay = new Date(year, month, 0).getDate();
+          const dateTo = `${year}-${month.padStart(2, '0')}-${lastDay}`;
+
+          if (this.filters.dateFrom !== dateFrom || this.filters.dateTo !== dateTo) {
+            this.filters.dateFrom = dateFrom;
+            this.filters.dateTo = dateTo;
+            this.showFilters = true;
+          }
+        }
+      },
+      immediate: true
     }
   }
 };

@@ -1,9 +1,9 @@
 <template>
   <section v-if="goal">
-    <base-card>
+    <base-card class="detail-card">
       <div class="header">
         <h1>Edit Goal: {{ goal.name }}</h1>
-        <base-button mode="flat" link :to="goalDetailLink">Cancel</base-button>
+        <!-- <base-button mode="flat" link :to="goalDetailLink">Cancel</base-button> -->
       </div>
 
       <form @submit.prevent="saveGoal">
@@ -37,17 +37,19 @@
         </div>
 
         <div class="form-actions">
+          <base-button mode="outline" link :to="goBack">Cancel</base-button>
           <base-button type="submit">Save Changes</base-button>
-          <base-button mode="outline" link :to="goalDetailLink">Cancel</base-button>
         </div>
       </form>
     </base-card>
   </section>
 
   <section v-else>
-    <h1>Goal Not Found</h1>
-    <p>The goal you're trying to edit doesn't exist.</p>
-    <base-button link to="/goals">Back to Goals</base-button>
+    <base-card class="detail-card">
+      <h1>Goal Not Found</h1>
+      <p>The goal you're trying to edit doesn't exist.</p>
+      <base-button link to="/goals">Back to Goals</base-button>
+    </base-card>
   </section>
 </template>
 
@@ -118,6 +120,12 @@ export default {
 </script>
 
 <style scoped>
+.detail-card {
+  max-width: 60rem !important;
+  width: 95%;
+  margin: 2rem auto;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

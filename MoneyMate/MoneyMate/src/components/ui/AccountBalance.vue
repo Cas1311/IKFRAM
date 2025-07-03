@@ -7,44 +7,49 @@
       </div>
 
       <div class="balance-amount-container">
-        <h2>Total Left To Spend On Savings</h2>
-        <p class="balance-amount" :class="{ 'negative': accountBalance < 0 }">
-          ${{ accountBalance.toFixed(2) }}
+        <h2>Total Amount of Money in Account</h2>
+        <p class="balance-amount" :class="{ 'negative': totalMoney < 0 }">
+          ${{ accountMoney.toFixed(2) }}
         </p>
-        <!-- <span class="balance-change" :class="balanceChangeClass" v-if="showBalanceChange">
-          {{ balanceChangeText }}
-        </span> -->
       </div>
 
       <div class="balance-summary">
-        <div class="summary-item income">
+        <div class="summary-item income" @click="goToTransactions('income')">
           <div class="summary-icon">↗</div>
           <div class="summary-details">
-            <span class="summary-label">Total Income</span>
-            <span class="summary-amount">+${{ totalIncome.toFixed(2) }}</span>
+            <span class="summary-label">This Month's Income</span>
+            <span class="summary-amount">+${{ thisMonthIncome.toFixed(2) }}</span>
           </div>
         </div>
 
-        <div class="summary-item expense">
+        <div class="summary-item expense" @click="goToTransactions('expense')">
           <div class="summary-icon">↙</div>
           <div class="summary-details">
-            <span class="summary-label">Total Expenses</span>
-            <span class="summary-amount">-${{ totalExpenses.toFixed(2) }}</span>
+            <span class="summary-label">This Month's Expenses</span>
+            <span class="summary-amount">-${{ thisMonthExpenses.toFixed(2) }}</span>
           </div>
         </div>
 
-        <div class="summary-item savings">
+        <div class="summary-item savings" @click="goToTransactions('goal')">
           <div class="summary-icon">💰</div>
           <div class="summary-details">
             <span class="summary-label">Total Savings</span>
             <span class="summary-amount">${{ totalSavings.toFixed(2) }}</span>
           </div>
         </div>
+
+        <div class="summary-item available">
+          <div class="summary-icon">💳</div>
+          <div class="summary-details">
+            <span class="summary-label">Available to Spend</span>
+            <span class="summary-amount">${{ accountBalance.toFixed(2) }}</span>
+          </div>
+        </div>
       </div>
 
       <div class="balance-actions">
-        <base-button mode="outline" link to="/transactions/add">Add Transaction</base-button>
-        <base-button link to="/transactions">View All</base-button>
+        <base-button mode="outline" link to="/transactions">View All</base-button>
+        <base-button link to="/transactions/add">Add Transaction</base-button>
       </div>
     </div>
   </base-card>
@@ -65,6 +70,18 @@ export default {
     },
     totalSavings() {
       return this.$store.getters['transactions/totalSavings'];
+    },
+    thisMonthIncome() {
+      return this.$store.getters['transactions/thisMonthIncome'];
+    },
+    thisMonthExpenses() {
+      return this.$store.getters['transactions/thisMonthExpenses'];
+    },
+    totalMoney() {
+      return this.totalIncome;
+    },
+    accountMoney() {
+      return this.accountBalance + this.totalSavings;
     },
     currentDate() {
       return new Date().toLocaleDateString('en-US', {
@@ -89,6 +106,22 @@ export default {
         'positive': this.netIncome > 0,
         'negative': this.netIncome < 0
       };
+    }
+  },
+  methods: {
+    goToTransactions(type) {
+      // Get current month in YYYY-MM format for filtering
+      const now = new Date();
+      const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+      // Navigate to transactions page with filter applied for current month
+      this.$router.push({
+        path: '/transactions',
+        query: {
+          type: type,
+          month: currentMonth
+        }
+      });
     }
   }
 };
@@ -152,7 +185,7 @@ export default {
 
 .balance-summary {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
   margin-bottom: 2rem;
 }
@@ -163,12 +196,16 @@ export default {
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background: #f8f9fa;
-  transition: transform 0.2s ease;
+  background: white;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .summary-item:hover {
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .summary-item.income {
@@ -181,6 +218,10 @@ export default {
 
 .summary-item.savings {
   border-left: 4px solid #007bff;
+}
+
+.summary-item.available {
+  border-left: 4px solid #6f42c1;
 }
 
 .summary-icon {
@@ -202,6 +243,16 @@ export default {
 .summary-item.expense .summary-icon {
   background: #f8d7da;
   color: #dc3545;
+}
+
+.summary-item.savings .summary-icon {
+  background: #cce5ff;
+  color: #007bff;
+}
+
+.summary-item.available .summary-icon {
+  background: #e2d9f3;
+  color: #6f42c1;
 }
 
 .summary-details {
@@ -229,6 +280,14 @@ export default {
   color: #dc3545;
 }
 
+.summary-item.savings .summary-amount {
+  color: #007bff;
+}
+
+.summary-item.available .summary-amount {
+  color: #6f42c1;
+}
+
 .balance-actions {
   display: flex;
   gap: 1rem;
@@ -241,7 +300,7 @@ export default {
   }
 
   .balance-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .balance-actions {
@@ -260,6 +319,10 @@ export default {
 
   .balance-header h2 {
     font-size: 1.25rem;
+  }
+
+  .balance-summary {
+    grid-template-columns: 1fr;
   }
 }
 </style>
