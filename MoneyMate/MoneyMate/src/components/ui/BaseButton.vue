@@ -43,6 +43,7 @@ a {
   margin-right: 0.5rem;
   display: inline-block;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 a:hover,

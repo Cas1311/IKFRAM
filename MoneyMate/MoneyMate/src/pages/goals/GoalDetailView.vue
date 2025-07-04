@@ -104,15 +104,7 @@ export default {
         this.$router.push('/goals');
       }
     },
-    goBack() {
-      // Check if there's history to go back to
-      if (window.history.length > 1) {
-        this.$router.go(-1);
-      } else {
-        // Fallback to goals page if no history
-        this.$router.push('/goals');
-      }
-    }
+
   }
 };
 </script>

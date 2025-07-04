@@ -16,6 +16,17 @@ export default {
     this.$router.isReady().then(() => {
       console.log('Router is ready');
     });
+  },
+  methods: {
+    goBack() {
+      // Check if there's history to go back to
+      if (window.history.length > 1) {
+        this.$router.go(-1);
+      } else {
+        // Fallback to home page if no history
+        this.$router.push('/');
+      }
+    }
   }
 };
 </script>

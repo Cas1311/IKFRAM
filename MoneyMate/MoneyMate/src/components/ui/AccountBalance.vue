@@ -48,7 +48,7 @@
       </div>
 
       <div class="balance-actions">
-        <base-button mode="outline" link to="/transactions">View All</base-button>
+        <base-button mode="outline" link to="/transactions">View All Transactions</base-button>
         <base-button link to="/transactions/add">Add Transaction</base-button>
       </div>
     </div>
