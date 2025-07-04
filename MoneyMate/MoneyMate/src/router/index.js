@@ -53,6 +53,11 @@ const router = createRouter({
       component: () => import('@/pages/transactions/AddTransaction.vue'),
     },
     {
+      path: '/insights',
+      name: 'insights',
+      component: () => import('@/pages/insights/InsightsView.vue'),
+    },
+    {
       path: '/admin/populate',
       name: 'populate-database',
       component: () => import('@/components/admin/PopulateDatabase.vue'),

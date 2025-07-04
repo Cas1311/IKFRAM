@@ -10,6 +10,7 @@
         <li><router-link to="/" class="nav-link">Dashboard</router-link></li>
         <li><router-link to="/transactions" class="nav-link">Transactions</router-link></li>
         <li><router-link to="/goals" class="nav-link">Goals</router-link></li>
+        <li><router-link to="/insights" class="nav-link">Insights</router-link></li>
       </ul>
       <!-- Mobile menu button -->
       <button class="mobile-menu-btn" @click="toggleMobileMenu" :class="{ 'active': mobileMenuOpen }">
@@ -23,6 +24,7 @@
       <router-link to="/" class="mobile-nav-link" @click="closeMobileMenu">Dashboard</router-link>
       <router-link to="/transactions" class="mobile-nav-link" @click="closeMobileMenu">Transactions</router-link>
       <router-link to="/goals" class="mobile-nav-link" @click="closeMobileMenu">Goals</router-link>
+      <router-link to="/insights" class="mobile-nav-link" @click="closeMobileMenu">Insights</router-link>
     </div>
   </header>
 </template>
