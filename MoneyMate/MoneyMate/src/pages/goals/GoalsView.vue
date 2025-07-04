@@ -314,7 +314,7 @@ export default {
 
 .controls h2 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .control-actions {
@@ -327,10 +327,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 6px;
   margin-bottom: 1.5rem;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--border-primary);
 }
 
 .stat-item {
@@ -341,18 +341,18 @@ export default {
 
 .stat-label {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .stat-value {
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .stat-value.completed {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .goals-list {
@@ -365,13 +365,13 @@ export default {
 .no-filtered-goals {
   text-align: center;
   padding: 3rem 1rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .no-goals h3,
 .no-filtered-goals h3 {
   margin: 0 0 1rem 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .no-goals p,
@@ -382,7 +382,7 @@ export default {
 .loading {
   text-align: center;
   padding: 3rem 1rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .loading p {
@@ -393,7 +393,7 @@ export default {
 .error {
   text-align: center;
   padding: 3rem 1rem;
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .error p {

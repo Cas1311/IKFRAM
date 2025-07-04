@@ -151,7 +151,7 @@ export default {
 .progress-bar {
   width: 100%;
   height: 20px;
-  background-color: #e0e0e0;
+  background-color: var(--border-secondary);
   border-radius: 10px;
   overflow: hidden;
   margin: 1rem 0;
@@ -159,7 +159,7 @@ export default {
 
 .progress-fill {
   height: 100%;
-  background-color: #4caf50;
+  background-color: var(--color-success);
   transition: width 0.3s ease;
 }
 
@@ -177,7 +177,7 @@ export default {
 
 .detail-item h4 {
   margin: 0 0 0.5rem 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -190,14 +190,14 @@ export default {
 }
 
 .status-completed {
-  color: #4caf50;
+  color: var(--color-success);
 }
 
 .status-overdue {
-  color: #f44336;
+  color: var(--color-error);
 }
 
 .status-progress {
-  color: #ff9800;
+  color: var(--color-warning);
 }
 </style>

@@ -8,7 +8,7 @@
             {{ isEditing ? 'Cancel' : 'Edit Transaction' }}
           </base-button>
           <base-button @click="deleteTransaction" mode="outline">Delete Transaction</base-button>
-          <base-button mode="flat" @click="goBack">❌</base-button>
+          <base-button mode="flat" @click="goBack">Back</base-button>
         </div>
       </div>
 
@@ -255,13 +255,13 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 1rem;
 }
 
 .transaction-header h1 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .actions {
@@ -274,10 +274,10 @@ export default {
 }
 
 .detail-section h3 {
-  color: #333;
+  color: var(--text-primary);
   margin: 0 0 1rem 0;
   font-size: 1.25rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--border-light);
   padding-bottom: 0.5rem;
 }
 
@@ -289,7 +289,7 @@ export default {
 
 .detail-item h4 {
   margin: 0 0 0.5rem 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -307,15 +307,15 @@ export default {
 }
 
 .amount.income {
-  color: #28a745;
+  color: var(--color-income);
 }
 
 .amount.expense {
-  color: #dc3545;
+  color: var(--color-expense);
 }
 
 .amount.goal {
-  color: #007bff;
+  color: var(--color-info);
 }
 
 .type-badge {
@@ -328,18 +328,18 @@ export default {
 }
 
 .type-badge.income {
-  background: #d4edda;
-  color: #155724;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-income);
 }
 
 .type-badge.expense {
-  background: #f8d7da;
-  color: #721c24;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-expense);
 }
 
 .type-badge.goal {
-  background: #cce5ff;
-  color: #004085;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-info);
 }
 
 .description {

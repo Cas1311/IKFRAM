@@ -148,9 +148,9 @@ export default {
 
 .pagination-btn {
     padding: 0.5rem 0.75rem;
-    border: 1px solid #e0e0e0;
-    background: white;
-    color: #64748b;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.875rem;
@@ -161,9 +161,9 @@ export default {
 }
 
 .pagination-btn:hover:not(:disabled) {
-    background: #f8fafc;
-    border-color: #3498db;
-    color: #3498db;
+    background: var(--bg-hover);
+    border-color: var(--interactive-primary);
+    color: var(--interactive-primary);
 }
 
 .pagination-btn:disabled {
@@ -177,14 +177,14 @@ export default {
 }
 
 .pagination-btn.active {
-    background: #3498db;
-    color: white;
-    border-color: #3498db;
+    background: var(--interactive-primary);
+    color: var(--text-inverse);
+    border-color: var(--interactive-primary);
 }
 
 .pagination-ellipsis {
     padding: 0.5rem 0.25rem;
-    color: #64748b;
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
@@ -194,28 +194,28 @@ export default {
     gap: 0.5rem;
     margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid var(--border-primary);
 }
 
 .page-size-selector label {
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
 .page-size-select {
     padding: 0.25rem 0.5rem;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-primary);
     border-radius: 4px;
-    background: white;
-    color: #333;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     font-size: 0.875rem;
     cursor: pointer;
 }
 
 .page-size-select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--interactive-primary);
 }
 
 .pagination-info {

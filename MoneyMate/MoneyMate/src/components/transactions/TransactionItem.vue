@@ -103,7 +103,7 @@ export default {
 
 .transaction-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 1.2rem;
 }
 
@@ -113,36 +113,36 @@ export default {
 }
 
 .transaction-amount.income {
-  color: #28a745;
+  color: var(--color-income);
 }
 
 .transaction-amount.expense {
-  color: #dc3545;
+  color: var(--color-expense);
 }
 
 .transaction-amount.goal {
-  color: #007bff;
+  color: var(--color-info);
 }
 
 .transaction-details {
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-light);
   padding-top: 1rem;
 }
 
 .transaction-date {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
 }
 
 .transaction-description {
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .transaction-category {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
   font-style: italic;
 }

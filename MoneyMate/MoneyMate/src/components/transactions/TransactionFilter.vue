@@ -147,8 +147,8 @@ export default {
 
 <style scoped>
 .transaction-filter {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
     border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
@@ -181,7 +181,7 @@ export default {
     display: block;
     margin-bottom: 0.25rem;
     font-weight: 500;
-    color: #333;
+    color: var(--text-primary);
     font-size: 0.875rem;
 }
 
@@ -189,21 +189,23 @@ export default {
 .filter-select {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     font-size: 0.875rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-color: var(--input-bg);
+    color: var(--input-text);
 }
 
 .filter-input:focus,
 .filter-select:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
 }
 
 .filter-select {
-    background-color: white;
+    background-color: var(--input-bg);
     cursor: pointer;
 }
 

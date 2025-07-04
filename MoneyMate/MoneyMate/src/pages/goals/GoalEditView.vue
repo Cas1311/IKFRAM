@@ -145,7 +145,7 @@ export default {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .form-group input[type="text"],
@@ -153,18 +153,20 @@ export default {
 .form-group input[type="date"] {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
+  background-color: var(--input-bg);
+  color: var(--input-text);
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group input[type="date"]:focus {
   outline: none;
-  border-color: #3a0061;
-  box-shadow: 0 0 0 2px rgba(58, 0, 97, 0.2);
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .form-group input[type="checkbox"] {

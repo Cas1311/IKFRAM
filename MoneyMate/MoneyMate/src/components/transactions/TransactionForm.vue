@@ -159,7 +159,7 @@ export default {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .form-control input,
@@ -167,29 +167,31 @@ export default {
 .form-control textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
+  background-color: var(--input-bg);
+  color: var(--input-text);
 }
 
 .form-control input:focus,
 .form-control select:focus,
 .form-control textarea:focus {
   outline: none;
-  border-color: #3a0061;
-  box-shadow: 0 0 0 2px rgba(58, 0, 97, 0.2);
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .form-control input.was-validated:invalid,
 .form-control select.was-validated:invalid,
 .form-control textarea.was-validated:invalid {
-  border-color: #e74c3c;
+  border-color: var(--color-error);
 }
 
 .error-message {
   display: block;
-  color: #e74c3c;
+  color: var(--color-error);
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }

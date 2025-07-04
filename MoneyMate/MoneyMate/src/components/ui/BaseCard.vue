@@ -27,12 +27,13 @@ export default {
 
 <style scoped>
 .card {
-
+  background: var(--bg-primary);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: var(--shadow-md);
   padding: 1rem;
   margin: 2rem auto;
   max-width: 40rem;
+  border: 1px solid var(--border-light);
 }
 
 .card-link {

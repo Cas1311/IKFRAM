@@ -98,7 +98,7 @@ export default {
 
 .controls h2 {
   margin: 0;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .goal-actions {
@@ -112,13 +112,13 @@ export default {
 
 .goal-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
 }
 
 .no-starred-goal {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .no-starred-goal p {
@@ -128,7 +128,7 @@ export default {
 
 .no-starred-goal span {
   margin-left: 0.5rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .recent-transactions {
@@ -140,7 +140,7 @@ export default {
 .no-transactions {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .no-transactions p {
@@ -151,7 +151,7 @@ export default {
 .loading-transactions {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .loading-transactions p {

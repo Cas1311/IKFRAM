@@ -146,26 +146,28 @@ export default {
 
 .filter-group label {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 
 .filter-group input,
 .filter-group select {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 1rem;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
+  background-color: var(--input-bg);
+  color: var(--input-text);
 }
 
 .filter-group input:focus,
 .filter-group select:focus {
   outline: none;
-  border-color: #3a0061;
-  box-shadow: 0 0 0 2px rgba(58, 0, 97, 0.2);
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .range-inputs {

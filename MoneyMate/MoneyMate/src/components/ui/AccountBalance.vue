@@ -30,7 +30,7 @@
           </div>
         </div>
 
-        <div class="summary-item savings" @click="goToTransactions('goal')">
+        <div class="summary-item savings" @click="goToTotalTransactions('goal')">
           <div class="summary-icon">💰</div>
           <div class="summary-details">
             <span class="summary-label">Total Savings</span>
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="summary-item available">
+        <div class="summary-item available" @click="goToGoals()">
           <div class="summary-icon">💳</div>
           <div class="summary-details">
             <span class="summary-label">Available to Spend</span>
@@ -69,6 +69,11 @@ export default {
       return this.$store.getters['transactions/totalExpenses'];
     },
     totalSavings() {
+      // Get the actual current amount saved in goals, not just contributions
+      return this.$store.getters['goals/totalCurrentAmount'] || 0;
+    },
+    goalContributions() {
+      // Keep the original getter for goal contributions if needed elsewhere
       return this.$store.getters['transactions/totalSavings'];
     },
     thisMonthIncome() {
@@ -108,6 +113,10 @@ export default {
       };
     }
   },
+  mounted() {
+    // Ensure goals are loaded to calculate total savings
+    this.$store.dispatch('goals/fetchGoals');
+  },
   methods: {
     goToTransactions(type) {
       // Get current month in YYYY-MM format for filtering
@@ -122,6 +131,19 @@ export default {
           month: currentMonth
         }
       });
+    },
+    goToTotalTransactions(type) {
+      this.$router.push({
+        path: '/transactions',
+        query: {
+          type: type,
+        }
+      })
+    },
+    goToGoals() {
+      this.$router.push({
+        path: '/goals'
+      })
     }
   }
 };
@@ -138,12 +160,12 @@ export default {
 
 .balance-header h2 {
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: var(--text-primary);
   font-size: 1.5rem;
 }
 
 .balance-date {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -155,12 +177,12 @@ export default {
   font-size: 3rem;
   font-weight: bold;
   margin: 0;
-  color: #3a0061;
+  color: var(--interactive-primary);
   transition: color 0.3s ease;
 }
 
 .balance-amount.negative {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .balance-change {
@@ -170,17 +192,17 @@ export default {
   margin-top: 0.5rem;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
 }
 
 .balance-change.positive {
-  color: #28a745;
-  background: #d4edda;
+  color: var(--color-success);
+  background: rgba(16, 185, 129, 0.1);
 }
 
 .balance-change.negative {
-  color: #dc3545;
-  background: #f8d7da;
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .balance-summary {
@@ -196,32 +218,32 @@ export default {
   gap: 1rem;
   padding: 1rem;
   border-radius: 8px;
-  background: white;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-sm);
   transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .summary-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 .summary-item.income {
-  border-left: 4px solid #28a745;
+  border-left: 4px solid var(--color-success);
 }
 
 .summary-item.expense {
-  border-left: 4px solid #dc3545;
+  border-left: 4px solid var(--color-error);
 }
 
 .summary-item.savings {
-  border-left: 4px solid #007bff;
+  border-left: 4px solid var(--color-info);
 }
 
 .summary-item.available {
-  border-left: 4px solid #6f42c1;
+  border-left: 4px solid var(--purple-500);
 }
 
 .summary-icon {
@@ -236,23 +258,23 @@ export default {
 }
 
 .summary-item.income .summary-icon {
-  background: #d4edda;
-  color: #28a745;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--color-success);
 }
 
 .summary-item.expense .summary-icon {
-  background: #f8d7da;
-  color: #dc3545;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
 }
 
 .summary-item.savings .summary-icon {
-  background: #cce5ff;
-  color: #007bff;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-info);
 }
 
 .summary-item.available .summary-icon {
-  background: #e2d9f3;
-  color: #6f42c1;
+  background: rgba(139, 92, 246, 0.1);
+  color: var(--purple-500);
 }
 
 .summary-details {
@@ -263,7 +285,7 @@ export default {
 
 .summary-label {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 0.25rem;
 }
 
@@ -273,19 +295,19 @@ export default {
 }
 
 .summary-item.income .summary-amount {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .summary-item.expense .summary-amount {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .summary-item.savings .summary-amount {
-  color: #007bff;
+  color: var(--color-info);
 }
 
 .summary-item.available .summary-amount {
-  color: #6f42c1;
+  color: var(--purple-500);
 }
 
 .balance-actions {

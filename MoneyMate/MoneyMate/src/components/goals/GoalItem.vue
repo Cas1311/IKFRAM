@@ -162,7 +162,7 @@ export default {
 }
 
 .goal-title:hover {
-  color: #3a0061;
+  color: var(--interactive-primary);
 }
 
 .goal-content {
@@ -181,20 +181,20 @@ export default {
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.25rem;
-  color: #ccc;
+  color: var(--text-muted);
   transition: color 0.2s ease;
 }
 
 .star-button:hover {
-  color: #ffd700;
+  color: var(--amber-500);
 }
 
 .star-button.starred {
-  color: #ffd700;
+  color: var(--amber-500);
 }
 
 .delete-button:hover {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 h3 {
@@ -208,8 +208,8 @@ h4 {
 
 .completed-badge {
   display: inline-block;
-  background: #28a745;
-  color: white;
+  background: var(--color-success);
+  color: var(--text-inverse);
   padding: 0.25rem 0.5rem;
   border-radius: 12px;
   font-size: 0.75rem;
@@ -218,14 +218,14 @@ h4 {
 }
 
 .completed {
-  border-left: 4px solid #28a745;
-  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  border-left: 4px solid var(--color-success);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, var(--bg-primary) 100%);
 }
 
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: #e9ecef;
+  background-color: var(--border-secondary);
   border-radius: 4px;
   overflow: hidden;
   margin: 0.5rem 0;
@@ -233,18 +233,18 @@ h4 {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #3a0061 0%, #6c5ce7 100%);
+  background: linear-gradient(90deg, var(--interactive-primary) 0%, var(--brand-accent) 100%);
   transition: width 0.3s ease;
   border-radius: 4px;
 }
 
 .completed .progress-fill {
-  background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+  background: linear-gradient(90deg, var(--color-success) 0%, var(--emerald-500) 100%);
 }
 
 .progress-text {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
   margin: 0.25rem 0 0 0;
   text-align: center;
 }

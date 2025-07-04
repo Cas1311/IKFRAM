@@ -35,39 +35,40 @@ a {
   text-decoration: none;
   padding: 0.75rem 1.5rem;
   font: inherit;
-  background-color: #3a0061;
-  border: 1px solid #3a0061;
-  color: white;
+  background-color: var(--button-primary-bg);
+  border: 1px solid var(--button-primary-border);
+  color: var(--button-primary-text);
   cursor: pointer;
   border-radius: 30px;
   margin-right: 0.5rem;
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
 a:hover,
 a:active,
 button:hover,
 button:active {
-  background-color: #270041;
-  border-color: #270041;
+  background-color: var(--button-primary-hover-bg);
+  border-color: var(--button-primary-hover-border);
 }
 
 .flat {
   background-color: transparent;
-  color: #3a0061;
+  color: var(--interactive-primary);
   border: none;
 }
 
 .outline {
-  background-color: transparent;
-  border-color: #270041;
-  color: #270041;
+  background-color: var(--button-secondary-bg);
+  border-color: var(--button-secondary-border);
+  color: var(--button-secondary-text);
 }
 
 .flat:hover,
 .flat:active,
 .outline:hover,
 .outline:active {
-  background-color: #edd2ff;
+  background-color: var(--button-secondary-hover-bg);
 }
 </style>

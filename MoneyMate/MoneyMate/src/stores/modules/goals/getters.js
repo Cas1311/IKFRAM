@@ -22,5 +22,11 @@ export default {
   },
   activeGoals(state) {
     return state.goals.filter(goal => !goal.isCompleted);
+  },
+  totalCurrentAmount(state) {
+    return state.goals.reduce((total, goal) => total + (goal.currentAmount || 0), 0);
+  },
+  totalTargetAmount(state) {
+    return state.goals.reduce((total, goal) => total + (goal.targetAmount || 0), 0);
   }
 };

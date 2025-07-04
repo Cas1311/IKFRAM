@@ -58,9 +58,9 @@ export default {
 
 <style scoped>
 header {
-  background: #28a745;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -89,12 +89,12 @@ nav {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  color: white;
+  color: var(--header-text);
   transition: color 0.3s ease;
 }
 
 .brand-link:hover h1 {
-  color: #f8fafc;
+  color: var(--text-light);
 }
 
 .nav-links {
@@ -107,7 +107,7 @@ nav {
 
 .nav-link {
   text-decoration: none;
-  color: white;
+  color: var(--header-text);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 500;
@@ -116,13 +116,13 @@ nav {
 }
 
 .nav-link:hover {
-  color: #3498db;
-  background-color: #f8fafc;
+  color: var(--text-light);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.router-link-active {
-  color: #3498db;
-  background-color: #eff6ff;
+  color: var(--text-light);
+  background-color: rgba(255, 255, 255, 0.15);
   font-weight: 600;
 }
 
@@ -143,7 +143,7 @@ nav {
 .mobile-menu-btn span {
   width: 2rem;
   height: 0.25rem;
-  background: #64748b;
+  background: var(--text-secondary);
   border-radius: 10px;
   transition: all 0.3s linear;
   position: relative;
@@ -170,9 +170,9 @@ nav {
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-100%);
   opacity: 0;
   visibility: hidden;
@@ -189,16 +189,16 @@ nav {
   display: block;
   padding: 1rem 1.5rem;
   text-decoration: none;
-  color: #64748b;
+  color: var(--text-secondary);
   font-weight: 500;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-light);
   transition: all 0.3s ease;
 }
 
 .mobile-nav-link:hover,
 .mobile-nav-link.router-link-active {
-  color: #3498db;
-  background-color: #f8fafc;
+  color: var(--interactive-primary);
+  background-color: var(--bg-hover);
 }
 
 .mobile-nav-link:last-child {
