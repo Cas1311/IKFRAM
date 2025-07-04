@@ -67,7 +67,7 @@
 
     <div class="form-actions">
       <base-button type="submit">Add Transaction</base-button>
-      <base-button mode="outline" link to="/transactions">Cancel</base-button>
+      <base-button mode="outline" link @click="goBack()">Cancel</base-button>
     </div>
   </form>
 </template>

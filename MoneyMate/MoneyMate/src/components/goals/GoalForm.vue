@@ -29,6 +29,7 @@
       <span v-if="touched.dueDate && !dueDate" class="error-message">Due date is required</span>
     </div>
     <base-button>Add</base-button>
+    <base-button mode="outline" link @click="goBack()">Cancel</base-button>
   </form>
 </template>
 
