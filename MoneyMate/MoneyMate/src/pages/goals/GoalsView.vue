@@ -1,10 +1,8 @@
 <template>
-  <!-- <section>
-    <base-card>
-      <h1>Goals</h1>
-      <p>Track and manage your savings goals. Set targets, monitor progress, and achieve your financial objectives.</p>
-    </base-card>
-  </section> -->
+  <div class="goals-header">
+    <h1>Goals Overview</h1>
+    <p>View all your Goals and Contribute to them!</p>
+  </div>
 
   <section>
     <base-card>
@@ -305,6 +303,24 @@ export default {
 </script>
 
 <style scoped>
+.goals-header {
+  text-align: center;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.goals-header h1 {
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.goals-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+}
+
 .controls {
   display: flex;
   justify-content: space-between;

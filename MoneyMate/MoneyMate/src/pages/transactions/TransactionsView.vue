@@ -1,10 +1,8 @@
 <template>
-  <!-- <section>
-    <base-card>
-      <h1>Transactions</h1>
-      <p>Here you can see all your transactions. These can either be a form of income, or an expense</p>
-    </base-card>
-  </section> -->
+  <div class="transactions-header">
+    <h1>Transaction Overview</h1>
+    <p>View all your Transactions and Add new ones!</p>
+  </div>
 
   <section>
     <base-card>
@@ -325,6 +323,24 @@ export default {
 </script>
 
 <style scoped>
+.transactions-header {
+  text-align: center;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.transactions-header h1 {
+  color: #1f2937;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.transactions-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+}
+
 .controls {
   display: flex;
   justify-content: space-between;
