@@ -3,9 +3,21 @@
     <div class="insights-header">
       <h1>Financial Insights</h1>
       <p>Track your income and expenses over time</p>
+
+
     </div>
     <bar-chart />
-    <category-pie-charts />
+    <!-- Time Period Selector -->
+    <div class="time-period-selector">
+      <label for="timePeriod">Time Period:</label>
+      <select id="timePeriod" v-model="selectedTimePeriod">
+        <option :value="1">Last Month</option>
+        <option :value="3">Last 3 Months</option>
+        <option :value="6">Last 6 Months</option>
+        <option :value="12">Last 12 Months</option>
+      </select>
+    </div>
+    <category-pie-charts :time-period="selectedTimePeriod" />
   </section>
 </template>
 
@@ -18,6 +30,11 @@ export default {
   components: {
     BarChart,
     CategoryPieCharts
+  },
+  data() {
+    return {
+      selectedTimePeriod: 12 // Default to 12 months
+    };
   }
 };
 </script>
@@ -44,7 +61,43 @@ export default {
 .insights-header p {
   color: #6b7280;
   font-size: 1.1rem;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.time-period-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.time-period-selector label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.time-period-selector select {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--border-primary);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.time-period-selector select:focus {
+  outline: none;
+  border-color: var(--interactive-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.time-period-selector select:hover {
+  border-color: var(--interactive-hover);
 }
 
 .insights-actions {
@@ -64,6 +117,16 @@ export default {
 
   .insights-header p {
     font-size: 1rem;
+  }
+
+  .time-period-selector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .time-period-selector select {
+    width: 100%;
+    max-width: 200px;
   }
 }
 </style>

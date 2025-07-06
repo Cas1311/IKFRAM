@@ -104,7 +104,9 @@ export default {
         this.$router.push('/goals');
       }
     },
-
+    goBack() {
+      this.$router.back();
+    }
   }
 };
 </script>
@@ -142,23 +144,30 @@ export default {
 
 .progress-bar {
   width: 100%;
-  height: 20px;
+  height: 8px;
   background-color: var(--border-secondary);
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 .progress-fill {
   height: 100%;
-  background-color: var(--color-success);
+  background: linear-gradient(90deg, var(--interactive-primary) 0%, var(--brand-accent) 100%);
   transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.detail-card .progress-fill {
+  background: linear-gradient(90deg, var(--color-success) 0%, var(--emerald-500) 100%);
 }
 
 .progress-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0.25rem 0 0 0;
   text-align: center;
-  font-weight: bold;
-  margin: 0;
+  font-weight: normal;
 }
 
 .details-grid {

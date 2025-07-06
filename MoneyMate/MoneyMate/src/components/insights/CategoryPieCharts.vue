@@ -3,7 +3,7 @@
     <!-- Income by Category -->
     <base-card class="chart-card">
       <div class="chart-header">
-        <h3>Income by Category</h3>
+        <h3>Income by Category ({{ timePeriodText }})</h3>
       </div>
       <div class="chart-wrapper">
         <div v-if="isLoading" class="loading-state">
@@ -20,7 +20,7 @@
     <!-- Expenses by Category -->
     <base-card class="chart-card">
       <div class="chart-header">
-        <h3>Expenses by Category</h3>
+        <h3>Expenses by Category ({{ timePeriodText }})</h3>
       </div>
       <div class="chart-wrapper">
         <div v-if="isLoading" class="loading-state">
@@ -43,6 +43,13 @@ Chart.register(...registerables);
 
 export default {
   name: 'CategoryPieCharts',
+  props: {
+    timePeriod: {
+      type: Number,
+      default: 12, // Default to 12 months
+      validator: value => [1, 3, 6, 12].includes(value)
+    }
+  },
   data() {
     return {
       incomeChart: null,
@@ -55,10 +62,20 @@ export default {
     transactions() {
       return this.$store.getters['transactions/transactions'] || [];
     },
+    filteredTransactions() {
+      const now = new Date();
+      const cutoffDate = new Date();
+      cutoffDate.setMonth(now.getMonth() - this.timePeriod);
+
+      return this.transactions.filter(transaction => {
+        const transactionDate = new Date(transaction.date || transaction.timestamp);
+        return transactionDate >= cutoffDate;
+      });
+    },
     incomeByCategory() {
       const categories = {};
 
-      this.transactions
+      this.filteredTransactions
         .filter(t => t.type === 'income')
         .forEach(transaction => {
           // Normalize category name - capitalize first letter, lowercase the rest
@@ -72,7 +89,7 @@ export default {
     expensesByCategory() {
       const categories = {};
 
-      this.transactions
+      this.filteredTransactions
         .filter(t => t.type === 'expense')
         .forEach(transaction => {
           // Normalize category name - capitalize first letter, lowercase the rest
@@ -88,6 +105,15 @@ export default {
     },
     hasExpenseData() {
       return Object.keys(this.expensesByCategory).length > 0;
+    },
+    timePeriodText() {
+      switch (this.timePeriod) {
+        case 1: return 'Last Month';
+        case 3: return 'Last 3 Months';
+        case 6: return 'Last 6 Months';
+        case 12: return 'Last 12 Months';
+        default: return `Last ${this.timePeriod} Months`;
+      }
     }
   },
   watch: {
@@ -100,6 +126,15 @@ export default {
         }
       },
       deep: false
+    },
+    timePeriod: {
+      handler() {
+        if (!this.isLoading && !this.isDestroyed) {
+          this.$nextTick(() => {
+            this.updateCharts();
+          });
+        }
+      }
     }
   },
   mounted() {
