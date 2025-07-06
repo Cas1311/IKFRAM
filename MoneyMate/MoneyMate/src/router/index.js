@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../pages/DashboardView.vue'
 import GoalsView from '@/pages/goals/GoalsView.vue'
 import TransactionsView from '@/pages/transactions/TransactionsView.vue'
-// import RegisterUser from '@/pages/users/RegisterUser.vue'
 import NotFound from '@/pages/NotFound.vue'
 import AddGoal from '@/pages/goals/AddGoal.vue'
 
@@ -62,11 +61,6 @@ const router = createRouter({
       name: 'populate-database',
       component: () => import('@/components/admin/PopulateDatabase.vue'),
     },
-    // {
-    //   path: '/register',
-    //   name: 'register',
-    //   component: RegisterUser,
-    // },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',

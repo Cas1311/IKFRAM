@@ -37,7 +37,7 @@
         </div>
 
         <div class="form-actions">
-          <base-button mode="outline" link :to="goBack()">Cancel</base-button>
+          <base-button mode="outline" @click="goBack()">Cancel</base-button>
           <base-button type="submit">Save Changes</base-button>
         </div>
       </form>

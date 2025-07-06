@@ -231,13 +231,7 @@ export default {
       }
     },
     goBack() {
-      // Check if there's history to go back to
-      if (window.history.length > 1) {
-        this.$router.go(-1);
-      } else {
-        // Fallback to transactions page if no history
-        this.$router.push('/transactions');
-      }
+      this.$router.back();
     }
   }
 };

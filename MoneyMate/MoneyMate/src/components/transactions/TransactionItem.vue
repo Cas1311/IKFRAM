@@ -9,7 +9,7 @@
     </div>
     <div class="transaction-details">
       <p class="transaction-date">{{ formattedDate }}</p>
-      <p class="transaction-description">{{ description || 'Sample transaction description' }}</p>
+      <p class="transaction-description">{{ description || '' }}</p>
       <p v-if="category" class="transaction-category">Category: {{ category }}</p>
     </div>
   </div>
