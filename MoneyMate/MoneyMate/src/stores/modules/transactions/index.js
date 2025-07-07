@@ -108,6 +108,9 @@ export default {
           newBalance += transaction.amount;
         } else if (transaction.type === 'expense') {
           newBalance -= transaction.amount;
+        } else if (transaction.type === 'goal') {
+          // Goal contributions should reduce the account balance
+          newBalance -= transaction.amount;
         }
 
         await set(balanceRef, newBalance);
@@ -139,6 +142,23 @@ export default {
           // Update local state
           commit('removeTransactionFromState', transactionId);
 
+          // Handle goal contribution deletion - update the goal's current amount
+          if (transaction.type === 'goal' && transaction.goalId) {
+            const goalRef = ref(database, `goals/${transaction.goalId}`);
+            const goalSnapshot = await get(goalRef);
+
+            if (goalSnapshot.exists()) {
+              const goal = goalSnapshot.val();
+              const newCurrentAmount = Math.max(0, (goal.currentAmount || 0) - transaction.amount);
+
+              await set(ref(database, `goals/${transaction.goalId}/currentAmount`), newCurrentAmount);
+              console.log(`Updated goal ${transaction.goalId} current amount to:`, newCurrentAmount);
+
+              // Dispatch action to refresh goals in the store
+              this.dispatch('goals/fetchGoals');
+            }
+          }
+
           // Update balance in Firebase
           const balanceRef = ref(database, 'accountBalance');
           const currentBalance = await get(balanceRef);
@@ -147,6 +167,9 @@ export default {
           if (transaction.type === 'income') {
             newBalance -= transaction.amount;
           } else if (transaction.type === 'expense') {
+            newBalance += transaction.amount;
+          } else if (transaction.type === 'goal') {
+            // For goal contributions, add the money back to the account balance
             newBalance += transaction.amount;
           }
 
